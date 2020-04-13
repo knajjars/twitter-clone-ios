@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A2C62852444FAA1009DE24C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2C62842444FAA1009DE24C /* Utilities.swift */; };
 		1A30EF4F244423F400B640EF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A30EF4E244423F400B640EF /* Extensions.swift */; };
 		1AB8AD352443FED1004C55CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8AD342443FED1004C55CB /* AppDelegate.swift */; };
 		1AB8AD372443FED1004C55CB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8AD362443FED1004C55CB /* SceneDelegate.swift */; };
@@ -18,9 +19,12 @@
 		1AB8AD59244403E1004C55CB /* ExploreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8AD58244403E1004C55CB /* ExploreController.swift */; };
 		1AB8AD5B244403E9004C55CB /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8AD5A244403E9004C55CB /* NotificationController.swift */; };
 		1AB8AD5D244403F1004C55CB /* ConversationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB8AD5C244403F1004C55CB /* ConversationController.swift */; };
+		1ABF438B2444D42100D7C060 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF438A2444D42100D7C060 /* LoginController.swift */; };
+		1ABF438D2444D44100D7C060 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABF438C2444D44100D7C060 /* RegistrationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A2C62842444FAA1009DE24C /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		1A30EF4E244423F400B640EF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1AB8AD312443FED1004C55CB /* TwitterClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB8AD342443FED1004C55CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +38,8 @@
 		1AB8AD58244403E1004C55CB /* ExploreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreController.swift; sourceTree = "<group>"; };
 		1AB8AD5A244403E9004C55CB /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		1AB8AD5C244403F1004C55CB /* ConversationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationController.swift; sourceTree = "<group>"; };
+		1ABF438A2444D42100D7C060 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		1ABF438C2444D44100D7C060 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				1A30EF4E244423F400B640EF /* Extensions.swift */,
+				1A2C62842444FAA1009DE24C /* Utilities.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -100,6 +107,7 @@
 		1AB8AD4E2443FF6E004C55CB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1ABF43892444D41300D7C060 /* Authentication */,
 				1AB8AD5424440106004C55CB /* MainTabController.swift */,
 				1AB8AD5624440210004C55CB /* FeedController.swift */,
 				1AB8AD58244403E1004C55CB /* ExploreController.swift */,
@@ -128,6 +136,15 @@
 			children = (
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		1ABF43892444D41300D7C060 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				1ABF438A2444D42100D7C060 /* LoginController.swift */,
+				1ABF438C2444D44100D7C060 /* RegistrationController.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,11 +220,14 @@
 			files = (
 				1AB8AD5B244403E9004C55CB /* NotificationController.swift in Sources */,
 				1AB8AD352443FED1004C55CB /* AppDelegate.swift in Sources */,
+				1A2C62852444FAA1009DE24C /* Utilities.swift in Sources */,
 				1AB8AD59244403E1004C55CB /* ExploreController.swift in Sources */,
 				1AB8AD372443FED1004C55CB /* SceneDelegate.swift in Sources */,
+				1ABF438B2444D42100D7C060 /* LoginController.swift in Sources */,
 				1AB8AD5524440106004C55CB /* MainTabController.swift in Sources */,
 				1A30EF4F244423F400B640EF /* Extensions.swift in Sources */,
 				1AB8AD5D244403F1004C55CB /* ConversationController.swift in Sources */,
+				1ABF438D2444D44100D7C060 /* RegistrationController.swift in Sources */,
 				1AB8AD5724440210004C55CB /* FeedController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
