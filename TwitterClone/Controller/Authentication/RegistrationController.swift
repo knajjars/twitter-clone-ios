@@ -95,6 +95,14 @@ class RegistrationController: UIViewController {
         return button
     }()
     
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        spinner.color = .twitterBlue
+        return spinner
+    }()
+    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -116,28 +124,19 @@ class RegistrationController: UIViewController {
     }
     
     @objc func handleSignUp() {
-//        guard let profileImage = profileImage else {return}
+        guard let profileImage = profileImage else {return}
         guard let email = emailTextField.text else {return}
         guard let password = passwordTextField.text else {return}
         guard let fullName = fullNameTextField.text else {return}
         guard let userName = userNameTextField.text else {return}
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            if let err = error {
-                print(err.localizedDescription)
-                return
-            }
+
+        let authCredentials = AuthCredentials(email: email, password: password, fullName: fullName, userName: userName, prfofileImage: profileImage)
             
-            guard let uid = result?.user.uid else {return}
-            
-            let values = ["email": email, "userName": userName, "fullName": fullName]
-            let ref = Database.database().reference().child("user").child(uid)
-            
-            ref.updateChildValues(values) { (error, ref) in
-                if let err = error {
-                    fatalError(err.localizedDescription)
-                }
-            }
-            
+        spinner.startAnimating()
+        
+        AuthService.shared.registerUser(credentials: authCredentials) { (err, ref) in
+            print("success")
+            self.spinner.stopAnimating()
         }
     }
     
@@ -151,6 +150,12 @@ class RegistrationController: UIViewController {
         view.addSubview(addPhotoButton)
         addPhotoButton.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor)
         addPhotoButton.setDimensions(width: 125, height: 125)
+        
+        // add spinner to button
+        
+        signUpButton.addSubview(spinner)
+        spinner.anchor(top: signUpButton.topAnchor, bottom: signUpButton.bottomAnchor, right: signUpButton.rightAnchor, paddingRight: 16)
+        
         
         // add form stack
         let stack = UIStackView(arrangedSubviews: [
