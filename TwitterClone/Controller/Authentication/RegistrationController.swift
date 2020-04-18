@@ -129,14 +129,25 @@ class RegistrationController: UIViewController {
         guard let password = passwordTextField.text else {return}
         guard let fullName = fullNameTextField.text else {return}
         guard let userName = userNameTextField.text else {return}
-
+        
         let authCredentials = AuthCredentials(email: email, password: password, fullName: fullName, userName: userName, prfofileImage: profileImage)
-            
+        
         spinner.startAnimating()
         
-        AuthService.shared.registerUser(credentials: authCredentials) { (err, ref) in
-            print("success")
+        AuthService.shared.registerUser(credentials: authCredentials) { (error, ref) in
             self.spinner.stopAnimating()
+            
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            }
+            
+            guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else {return}
+            guard let nav = window.rootViewController as? MainTabController else {return}
+            
+            nav.authenticateUserAndConfigureUI()
+            self.dismiss(animated: true, completion: nil)
+            
         }
     }
     
@@ -152,7 +163,6 @@ class RegistrationController: UIViewController {
         addPhotoButton.setDimensions(width: 125, height: 125)
         
         // add spinner to button
-        
         signUpButton.addSubview(spinner)
         spinner.anchor(top: signUpButton.topAnchor, bottom: signUpButton.bottomAnchor, right: signUpButton.rightAnchor, paddingRight: 16)
         

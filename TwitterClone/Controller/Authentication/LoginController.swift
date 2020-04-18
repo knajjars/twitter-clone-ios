@@ -68,6 +68,14 @@ class LoginController: UIViewController {
         return button
     }()
     
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.hidesWhenStopped = true
+        spinner.color = .twitterBlue
+        return spinner
+    }()
+    
     
     //MARK: - Lifecycle
     
@@ -79,7 +87,23 @@ class LoginController: UIViewController {
     //MARK: - Selectors
     
     @objc func handleLogin() {
-        print("Login here...")
+        guard let email = emailTextField.text else {return}
+        guard let password = passwordTextField.text else {return}
+        
+        spinner.startAnimating()
+        
+        AuthService.shared.loginUser(withEmail: email, password: password) { (result, error) in
+            self.spinner.stopAnimating()
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            }
+            guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else {return}
+            guard let nav = window.rootViewController as? MainTabController else {return}
+            
+            nav.authenticateUserAndConfigureUI()
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func handlShowSignUp() {
@@ -90,6 +114,7 @@ class LoginController: UIViewController {
     }
     
     //MARK: - Helpers
+    
     func configureUI() {
         view.backgroundColor = .twitterBlue
         navigationController?.navigationBar.barStyle = .black
@@ -99,6 +124,10 @@ class LoginController: UIViewController {
         view.addSubview(logoImage)
         logoImage.centerX(inView: view, topAnchor: view.safeAreaLayoutGuide.topAnchor)
         logoImage.setDimensions(width: 150, height: 150)
+        
+        // add spinner to button
+        loginButton.addSubview(spinner)
+        spinner.anchor(top: loginButton.topAnchor, bottom: loginButton.bottomAnchor, right: loginButton.rightAnchor, paddingRight: 16)
         
         // add form stack
         let stack = UIStackView(arrangedSubviews: [
