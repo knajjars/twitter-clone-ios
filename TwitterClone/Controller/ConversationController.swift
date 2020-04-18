@@ -21,7 +21,7 @@ class ConversationController: UIViewController {
     
     //MARK: - Helpers
     func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .twitterBlack
         navigationItem.title = "Conversation"
     }
 }

@@ -33,7 +33,7 @@ class MainTabController: UITabBarController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
-//        logOutUser()
+        //        logOutUser()
         super.viewDidLoad()
         view.backgroundColor = .twitterBlue
         authenticateUserAndConfigureUI()
@@ -87,6 +87,9 @@ class MainTabController: UITabBarController {
         let conversationNav = generateNavigationController(image: conversationImage, rootViewController: conversation)
         
         viewControllers = [feedNav, exploreNav, notificationNav, conversationNav]
+        
+        UITabBar.appearance().barTintColor = .twitterBlack
+        
     }
     
     func generateNavigationController(image: UIImage?, rootViewController: UIViewController) -> UINavigationController {
@@ -94,7 +97,7 @@ class MainTabController: UITabBarController {
         let nav = UINavigationController(rootViewController: rootViewController)
         
         nav.tabBarItem.image = image
-        nav.navigationBar.barTintColor = .white
+        nav.navigationBar.barTintColor = .twitterBlack
         
         return nav
     }
