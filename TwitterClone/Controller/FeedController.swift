@@ -7,9 +7,16 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FeedController: UIViewController {
     //MARK: - Properties
+    
+    var user: User? {
+        didSet {
+            configureLeftButtonNav()
+        }
+    }
     
     //MARK: - Lifecycle
     
@@ -25,5 +32,18 @@ class FeedController: UIViewController {
         let imageView = UIImageView(image: UIImage(named: "twitter_logo_blue"))
         imageView.contentMode = .scaleAspectFit
         navigationItem.titleView = imageView
+    }
+    
+    func configureLeftButtonNav() {
+        guard let user = self.user else {return}
+        
+        let profileImage = UIImageView()
+        profileImage.setDimensions(width: 32, height: 32)
+        profileImage.layer.cornerRadius = 32 / 2
+        profileImage.layer.masksToBounds = true
+        
+        profileImage.sd_setImage(with: user.profileImageURL, completed: nil)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImage)
     }
 }
