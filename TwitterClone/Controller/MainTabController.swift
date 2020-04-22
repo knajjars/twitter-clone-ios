@@ -36,7 +36,11 @@ class MainTabController: UITabBarController {
     //MARK: - Selectors
     
     @objc func actionButtonTapped() {
-        print(123)
+        guard let user = user else {return}
+        let controller = CreateTweetController(user: user)
+        let createTweet = UINavigationController(rootViewController: controller)
+        
+        present(createTweet, animated: true, completion: nil)
     }
     
     //MARK: - Lifecycle
