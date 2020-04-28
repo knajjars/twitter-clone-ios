@@ -9,12 +9,27 @@
 import UIKit
 import SDWebImage
 
-class FeedController: UIViewController {
+class FeedController: UICollectionViewController {
     //MARK: - Properties
+    private let tweetIdentifier = "TWEET_CELL_IDENTIFIER"
+    
+    private var tweets = [Tweet]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     var user: User? {
         didSet {
             configureLeftButtonNav()
+        }
+    }
+    
+    //MARK: - API
+    
+    func fetchTweets() {
+        TweetService.shared.fetchTweet { tweets in
+            self.tweets = tweets
         }
     }
     
@@ -23,6 +38,7 @@ class FeedController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        fetchTweets()
     }
     
     //MARK: - Helpers
@@ -33,6 +49,9 @@ class FeedController: UIViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.setDimensions(width: 44, height: 44)
         navigationItem.titleView = imageView
+        
+        collectionView.backgroundColor = .twitterBlack
+        collectionView.register(TweetCell.self, forCellWithReuseIdentifier: tweetIdentifier)
     }
     
     func configureLeftButtonNav() {
@@ -46,5 +65,25 @@ class FeedController: UIViewController {
         profileImage.sd_setImage(with: user.profileImageURL, completed: nil)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImage)
+    }
+}
+
+extension FeedController {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return tweets.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: tweetIdentifier, for: indexPath) as! TweetCell
+        
+        cell.tweet = tweets[indexPath.row]
+        
+        return cell
+    }
+}
+
+extension FeedController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 150)
     }
 }

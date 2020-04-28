@@ -46,7 +46,7 @@ class MainTabController: UITabBarController {
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
-        //        logOutUser()
+        //                logOutUser()
         super.viewDidLoad()
         view.backgroundColor = .twitterBlue
         authenticateUserAndConfigureUI()
@@ -70,7 +70,8 @@ class MainTabController: UITabBarController {
     }
     
     func fetchUser() {
-        UserService.shared.fetchUser { (user) in
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        UserService.shared.fetchUser(uid: uid) { (user) in
             self.user = user
         }
     }
@@ -90,7 +91,7 @@ class MainTabController: UITabBarController {
     }
     
     func configureViewControllers() {
-        let feed = FeedController()
+        let feed = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
         let feedImage = UIImage(named: "home_unselected")
         let feedNav = generateNavigationController(image: feedImage, rootViewController: feed)
         

@@ -20,8 +20,23 @@ struct TweetService {
             "retweets": 0,
             "timestamp": Int(NSDate().timeIntervalSince1970),
             "uid": uid
-        ] as [String: Any]
+            ] as [String: Any]
         
         TWEET_REF.childByAutoId().setValue(values, withCompletionBlock: completion)
+    }
+    
+    func fetchTweet(completion: @escaping ([Tweet]) -> Void) {
+        var tweets = [Tweet]()
+        
+        TWEET_REF.observe(.childAdded) { (snapshot) in
+            guard let dictionary = snapshot.value as? [String: Any] else {return}
+            let tweetId = snapshot.key
+            guard let uid = dictionary["uid"] as? String else {return}
+            UserService.shared.fetchUser(uid: uid) { (user) in
+                let tweet = Tweet(user: user, tweetId: tweetId, dictionary: dictionary)
+                tweets.append(tweet)
+                completion(tweets)
+            }
+        }
     }
 }
