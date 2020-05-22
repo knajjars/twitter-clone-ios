@@ -11,6 +11,15 @@ import UIKit
 class ProfileHeader: UICollectionReusableView {
     
     //MARK: - Properties
+    
+    private let underlineFilter: UIView = {
+        let view = UIView()
+        view.backgroundColor = .twitterBlue
+        return view
+    }()
+    
+    private let profileFilterView = ProfileFilterView()
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         
@@ -73,15 +82,17 @@ class ProfileHeader: UICollectionReusableView {
     }()
     
     private let bioLabel: UILabel = {
-           let label = UILabel()
-           label.font = UIFont.systemFont(ofSize: 16)
-           label.textColor = .lightGray
-           return label
-       }()
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .lightGray
+        return label
+    }()
     
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        profileFilterView.delegate = self
         
         addSubview(containerView)
         containerView.anchor(top: topAnchor, left: leftAnchor, right: rightAnchor, height: 108)
@@ -104,6 +115,12 @@ class ProfileHeader: UICollectionReusableView {
         userDetailsStack.spacing = 4
         addSubview(userDetailsStack)
         userDetailsStack.anchor(top: profileImage.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 12, paddingRight: 12)
+        
+        addSubview(profileFilterView)
+        profileFilterView.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 50)
+        
+        addSubview(underlineFilter)
+        underlineFilter.anchor(left: leftAnchor, bottom: bottomAnchor, width: frame.width / 3 , height: 2)
     }
     
     required init?(coder: NSCoder) {
@@ -118,5 +135,20 @@ class ProfileHeader: UICollectionReusableView {
     @objc func handleFollowClick() {
         print("DEBUG: follow clicked")
     }
+    
+}
+
+//MARK: - ProfileFilterViewDelegate
+
+extension ProfileHeader: ProfileFilterViewDelegate {
+    func filterView(_ view: ProfileFilterView, didSelect indexPath: IndexPath) {
+        guard let cell = view.collectionView.cellForItem(at: indexPath) as? ProfileFilterCell else {return}
+        let x = cell.frame.origin.x
+        
+        UIView.animate(withDuration: 0.3) {
+            self.underlineFilter.frame.origin.x = x
+        }
+    }
+    
     
 }
